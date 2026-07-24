@@ -1,3 +1,4 @@
+import 'package:evently_app/Ui/home/home_screen.dart';
 import 'package:evently_app/Ui/on_boarding/introduction_screen.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.introductionScreen,
-      routes: {AppRoutes.introductionScreen: (context) => OnboardingScreen()},
+      routes: {AppRoutes.introductionScreen: (context) => OnboardingScreen(),
+        AppRoutes.homescreen: (context) => HomeScreen()},
       locale: Locale(languageProvider.appLanguage),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
