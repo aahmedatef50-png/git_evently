@@ -2,7 +2,6 @@ import 'package:evently_app/Ui/on_boarding/widgets/Language_button.dart';
 import 'package:evently_app/Ui/on_boarding/widgets/theme_button.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/utils/app_assets.dart';
-import 'package:evently_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +33,7 @@ class OnboardingScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.getStarted,
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
-                onDone: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.homescreen);
-                },
+                onDone: () {},
                 showBackButton: true,
                 back: Text(
                   AppLocalizations.of(context)!.back,
