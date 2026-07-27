@@ -2,7 +2,6 @@ import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
-import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:evently_app/widgets/custom_text_field.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 
 import '../../../utils/size_utils.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +36,21 @@ class LoginScreen extends StatelessWidget {
                       : AppAssets.onboarding_light,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.loginToYourAccount,
+                  AppLocalizations.of(context)!.createYourAccount,
                   style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                CustomTextField(
+                  borderColor: Theme.of(context).dividerColor,
+                  filled: true,
+                  fillColor: themeProvider.appTheme.isDark
+                      ? AppColors.darkInputBgColor
+                      : AppColors.whiteColor,
+                  hintText: AppLocalizations.of(context)!.enterYourName,
+                  hintStyle: Theme.of(context).textTheme.bodySmall,
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                    color: AppColors.lightgreyColor,
+                  ),
                 ),
                 CustomTextField(
                   borderColor: Theme.of(context).dividerColor,
@@ -70,28 +82,30 @@ class LoginScreen extends StatelessWidget {
                     color: AppColors.lightgreyColor,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        '${AppLocalizations.of(context)!.forgotPassword} ?',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          decoration: TextDecoration.underline,
-                          decorationThickness: 2,
-                          decorationColor: Theme.of(context).cardColor,
-                        ),
-                      ),
-                    ),
-                  ],
+                CustomTextField(
+                  borderColor: Theme.of(context).dividerColor,
+                  filled: true,
+                  fillColor: themeProvider.appTheme.isDark
+                      ? AppColors.darkInputBgColor
+                      : AppColors.whiteColor,
+                  hintText: AppLocalizations.of(context)!.confirmYourPassword,
+                  hintStyle: Theme.of(context).textTheme.bodySmall,
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: AppColors.lightgreyColor,
+                  ),
+                  suffixIcon: Icon(
+                    Icons.visibility_off_outlined,
+                    color: AppColors.lightgreyColor,
+                  ),
                 ),
+                SizedBox(height: height * 0.02),
                 CustomElevatedButton(
-                  onPressed: login,
+                  onPressed: register,
                   backgroundColor: Theme.of(context).cardColor,
                   verticalPadding: height * 0.01,
                   child: Text(
-                    AppLocalizations.of(context)!.login,
+                    AppLocalizations.of(context)!.signup,
                     style: AppStyles.medium20white,
                   ),
                 ),
@@ -99,16 +113,15 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.dontHaveAnAccount,
+                      AppLocalizations.of(context)!.alreadyHaveAnAccount,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                            AppRoutes.register_screen);
+                        Navigator.pop(context);
                       },
                       child: Text(
-                        AppLocalizations.of(context)!.signup,
+                        AppLocalizations.of(context)!.login,
                         style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           decoration: TextDecoration.underline,
                           decorationThickness: 2,
@@ -155,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       Image.asset(AppAssets.google_icon),
                       Text(
-                        AppLocalizations.of(context)!.loginWithGoogle,
+                        AppLocalizations.of(context)!.signUpWithGoogle,
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
@@ -169,5 +182,5 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login() {}
+  void register() {}
 }
