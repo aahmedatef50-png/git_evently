@@ -30,5 +30,8 @@
   "confirmYourPassword": "Confirm your password",
   "alreadyHaveAnAccount": "Already have an account?",
   "signUpWithGoogle": "Sign Up with Google",
-  "resetPassword": "Reset Password"
+  "resetPassword": "Reset Password",
+  "home" : "Home",
+  "favorite" : "Favorite",
+  "profile" : "Profile"
 }
