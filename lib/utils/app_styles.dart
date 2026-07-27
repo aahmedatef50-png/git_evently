@@ -68,6 +68,11 @@ class AppStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.greyColor,
   );
+  static TextStyle regular14GreyColor = GoogleFonts.poppins(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColors.greyColor,
+  );
   static TextStyle regular14whiteColor = GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w700,
@@ -83,9 +88,24 @@ class AppStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.mainLightColor,
   );
+  static TextStyle medium16MainlLightColor = GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainLightColor,
+  );
+  static TextStyle medium18MainlLightColor = GoogleFonts.poppins(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainLightColor,
+  );
 
   static TextStyle semi24MainlLightColor = GoogleFonts.poppins(
     fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainLightColor,
+  );
+  static TextStyle semi14MainlLightColor = GoogleFonts.poppins(
+    fontSize: 14,
     fontWeight: FontWeight.w700,
     color: AppColors.mainLightColor,
   );
@@ -96,6 +116,21 @@ class AppStyles {
   );
   static TextStyle semi16MainlDarkColor = GoogleFonts.poppins(
     fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainDarkColor,
+  );
+  static TextStyle medium16MainlDarkColor = GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainDarkColor,
+  );
+  static TextStyle medium18MainlDarkColor = GoogleFonts.poppins(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.mainDarkColor,
+  );
+  static TextStyle semi14MainlDarkColor = GoogleFonts.poppins(
+    fontSize: 14,
     fontWeight: FontWeight.w700,
     color: AppColors.mainDarkColor,
   );
@@ -110,6 +145,11 @@ class AppStyles {
     color: AppColors.greyColor,
   );
   static TextStyle semi20white = GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColors.whiteColor,
+  );
+  static TextStyle medium20white = GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: AppColors.whiteColor,

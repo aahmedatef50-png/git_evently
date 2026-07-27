@@ -17,4 +17,5 @@ class AppAssets {
       'assets/images/on_boarding/onboarding_3_dark.png';
   static const String onboarding_4_dark =
       'assets/images/on_boarding/onboarding_4_dark.png';
+  static const String google_icon = 'assets/images/google_icon.png';
 }
