@@ -1,4 +1,9 @@
+import 'package:evently_app/Ui/home/tabs/favorite/favorite_tab.dart';
+import 'package:evently_app/Ui/home/tabs/home/home_tab.dart';
+import 'package:evently_app/Ui/home/tabs/profile/profile_screen.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/utils/app_colors.dart';
+import 'package:evently_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,10 +15,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tabsList = [];
+  List<Widget> tabsList = [
+    HomeTab(),
+    FavoriteTab(),
+    ProfileScreen()
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: tabsList[selectedIndex],
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.pushNamed(context, AppRoutes.add_event_screen);
+      },
+        child: Icon(Icons.add, color: AppColors.whiteColor, size: 25,),),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) {
@@ -41,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
     );
   }
 
