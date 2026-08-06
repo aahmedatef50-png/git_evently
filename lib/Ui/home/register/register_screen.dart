@@ -11,7 +11,15 @@ import 'package:provider/provider.dart';
 import '../../../utils/size_utils.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  RegisterScreen({super.key});
+
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var rePasswordController = TextEditingController();
+
+  var passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,156 +33,260 @@ class RegisterScreen extends StatelessWidget {
             horizontal: width * 0.04,
             vertical: height * 0.02,
           ),
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: height * 0.02,
-              children: [
-                Image.asset(
-                  themeProvider.appTheme.isDark
-                      ? AppAssets.onboarding_dark
-                      : AppAssets.onboarding_light,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.createYourAccount,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                CustomTextField(
-                  borderColor: Theme.of(context).dividerColor,
-                  filled: true,
-                  fillColor: themeProvider.appTheme.isDark
-                      ? AppColors.darkInputBgColor
-                      : AppColors.whiteColor,
-                  hintText: AppLocalizations.of(context)!.enterYourName,
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  prefixIcon: Icon(
-                    Icons.person_outline,
-                    color: AppColors.lightgreyColor,
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: height * 0.02,
+                children: [
+                  Image.asset(
+                    themeProvider.appTheme.isDark
+                        ? AppAssets.onboarding_dark
+                        : AppAssets.onboarding_light,
                   ),
-                ),
-                CustomTextField(
-                  borderColor: Theme.of(context).dividerColor,
-                  filled: true,
-                  fillColor: themeProvider.appTheme.isDark
-                      ? AppColors.darkInputBgColor
-                      : AppColors.whiteColor,
-                  hintText: AppLocalizations.of(context)!.enterYourEmail,
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: AppColors.lightgreyColor,
+                  Text(
+                    AppLocalizations.of(context)!.createYourAccount,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headlineSmall,
                   ),
-                ),
-                CustomTextField(
-                  borderColor: Theme.of(context).dividerColor,
-                  filled: true,
-                  fillColor: themeProvider.appTheme.isDark
-                      ? AppColors.darkInputBgColor
-                      : AppColors.whiteColor,
-                  hintText: AppLocalizations.of(context)!.enterYourPassword,
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.lightgreyColor,
-                  ),
-                  suffixIcon: Icon(
-                    Icons.visibility_off_outlined,
-                    color: AppColors.lightgreyColor,
-                  ),
-                ),
-                CustomTextField(
-                  borderColor: Theme.of(context).dividerColor,
-                  filled: true,
-                  fillColor: themeProvider.appTheme.isDark
-                      ? AppColors.darkInputBgColor
-                      : AppColors.whiteColor,
-                  hintText: AppLocalizations.of(context)!.confirmYourPassword,
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.lightgreyColor,
-                  ),
-                  suffixIcon: Icon(
-                    Icons.visibility_off_outlined,
-                    color: AppColors.lightgreyColor,
-                  ),
-                ),
-                SizedBox(height: height * 0.02),
-                CustomElevatedButton(
-                  onPressed: register,
-                  backgroundColor: Theme.of(context).cardColor,
-                  verticalPadding: height * 0.01,
-                  child: Text(
-                    AppLocalizations.of(context)!.signup,
-                    style: AppStyles.medium20white,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.alreadyHaveAnAccount,
-                      style: Theme.of(context).textTheme.bodySmall,
+                  CustomTextField(
+                    borderColor: Theme
+                        .of(context)
+                        .dividerColor,
+                    filled: true,
+                    controller: nameController,
+                    validator: (text) {
+                      if (text == null || text
+                          .trim()
+                          .isEmpty) {
+                        return "Please Enter name.";
+                      }
+
+                      return null;
+                    },
+
+                    fillColor: themeProvider.appTheme.isDark
+                        ? AppColors.darkInputBgColor
+                        : AppColors.whiteColor,
+                    hintText: AppLocalizations.of(context)!.enterYourName,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .bodySmall,
+                    prefixIcon: Icon(
+                      Icons.person_outline,
+                      color: AppColors.lightgreyColor,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.login,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          decoration: TextDecoration.underline,
-                          decorationThickness: 2,
-                          decorationColor: Theme.of(context).cardColor,
-                        ),
-                      ),
+                  ),
+                  CustomTextField(
+                    borderColor: Theme
+                        .of(context)
+                        .dividerColor,
+                    filled: true,
+                    controller: emailController,
+                    kyboardType: TextInputType.emailAddress,
+                    validator: (text) {
+                      if (text == null || text
+                          .trim()
+                          .isEmpty) {
+                        return "Please Enter Email.";
+                      }
+                      final bool emailValid =
+                      RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(emailController.text);
+                      if (!emailValid) {
+                        return "Please enter a valid Email.";
+                      }
+                      return null;
+                    },
+                    fillColor: themeProvider.appTheme.isDark
+                        ? AppColors.darkInputBgColor
+                        : AppColors.whiteColor,
+                    hintText: AppLocalizations.of(context)!.enterYourEmail,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .bodySmall,
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: AppColors.lightgreyColor,
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 2,
-                        color: Theme.of(context).dividerColor,
-                        indent: width * 0.01,
-                        endIndent: width * 0.04,
-                      ),
+                  ),
+                  CustomTextField(
+                    borderColor: Theme
+                        .of(context)
+                        .dividerColor,
+                    filled: true,
+                    controller: passwordController,
+                    obscureText: true,
+                    validator: (text) {
+                      if (text == null || text
+                          .trim()
+                          .isEmpty) {
+                        return "Please enter Password";
+                      }
+                      if (text.length < 6) {
+                        return "Please should be at least 6 chars";
+                      }
+                      return null;
+                    },
+                    fillColor: themeProvider.appTheme.isDark
+                        ? AppColors.darkInputBgColor
+                        : AppColors.whiteColor,
+                    hintText: AppLocalizations.of(context)!.enterYourPassword,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .bodySmall,
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      color: AppColors.lightgreyColor,
                     ),
-                    Text(
-                      AppLocalizations.of(context)!.or,
-                      style: Theme.of(context).textTheme.labelMedium,
+                    suffixIcon: Icon(
+                      Icons.visibility_off_outlined,
+                      color: AppColors.lightgreyColor,
                     ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 2,
-                        color: Theme.of(context).dividerColor,
-                        indent: width * 0.04,
-                        endIndent: width * 0.01,
-                      ),
+                  ),
+                  CustomTextField(
+                    borderColor: Theme
+                        .of(context)
+                        .dividerColor,
+                    filled: true,
+                    controller: passwordController,
+                    obscureText: true,
+                    validator: (text) {
+                      if (text == null || text
+                          .trim()
+                          .isEmpty) {
+                        return "Please enter Password";
+                      }
+                      if (text != passwordController.text) {
+                        return "Re-Password doesn't match Password";
+                      }
+
+                      return null;
+                    },
+                    fillColor: themeProvider.appTheme.isDark
+                        ? AppColors.darkInputBgColor
+                        : AppColors.whiteColor,
+                    hintText: AppLocalizations.of(context)!.confirmYourPassword,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .bodySmall,
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      color: AppColors.lightgreyColor,
                     ),
-                  ],
-                ),
-                CustomElevatedButton(
-                  onPressed: () {},
-                  backgroundColor: themeProvider.appTheme.isDark
-                      ? AppColors.darkInputBgColor
-                      : AppColors.whiteColor,
-                  borderColor: Theme.of(context).dividerColor,
-                  verticalPadding: height * 0.02,
-                  child: Row(
-                    spacing: width * 0.04,
+                    suffixIcon: Icon(
+                      Icons.visibility_off_outlined,
+                      color: AppColors.lightgreyColor,
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  CustomElevatedButton(
+                    onPressed: register,
+                    backgroundColor: Theme
+                        .of(context)
+                        .cardColor,
+                    verticalPadding: height * 0.01,
+                    child: Text(
+                      AppLocalizations.of(context)!.signup,
+                      style: AppStyles.medium20white,
+                    ),
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(AppAssets.google_icon),
                       Text(
-                        AppLocalizations.of(context)!.signUpWithGoogle,
-                        style: Theme.of(context).textTheme.labelSmall,
+                        AppLocalizations.of(context)!.alreadyHaveAnAccount,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)!.login,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 2,
+                            decorationColor: Theme
+                                .of(context)
+                                .cardColor,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 2,
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          indent: width * 0.01,
+                          endIndent: width * 0.04,
+                        ),
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.or,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .labelMedium,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 2,
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          indent: width * 0.04,
+                          endIndent: width * 0.01,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomElevatedButton(
+                    onPressed: () {},
+                    backgroundColor: themeProvider.appTheme.isDark
+                        ? AppColors.darkInputBgColor
+                        : AppColors.whiteColor,
+                    borderColor: Theme
+                        .of(context)
+                        .dividerColor,
+                    verticalPadding: height * 0.02,
+                    child: Row(
+                      spacing: width * 0.04,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(AppAssets.google_icon),
+                        Text(
+                          AppLocalizations.of(context)!.signUpWithGoogle,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .labelSmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -182,5 +294,9 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  void register() {}
+  void register() {
+    if (formKey.currentState?.validate() == true) {
+
+    }
+  }
 }

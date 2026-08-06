@@ -1,6 +1,9 @@
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
+typedef OnChanged = void Function(String)?;
+typedef OnValidator = String? Function(String?)?;
+
 class CustomTextField extends StatelessWidget {
   final double? radius;
   final Color borderColor;
@@ -12,7 +15,13 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? lableStyle;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final int? maxLines;
 
+  final TextEditingController? controller;
+  final OnChanged onChanged;
+  final OnValidator validator;
+  final TextInputType? kyboardType;
+  final bool obscureText;
   const CustomTextField({
     super.key,
     this.radius,
@@ -25,12 +34,19 @@ class CustomTextField extends StatelessWidget {
     this.lableStyle,
     this.prefixIcon,
     this.suffixIcon,
+    this.maxLines = 1,
+    this.controller,
+    this.onChanged,
+    this.validator,
+    this.kyboardType = TextInputType.text,
+    this.obscureText = false
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+
         enabledBorder: _builtDecorationBorder(
           radius: radius ?? 16,
           borderColor: borderColor,
@@ -56,6 +72,11 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
       ),
+      maxLines: maxLines,
+      controller: controller,
+      onChanged: onChanged,
+      validator: validator,
+      obscureText: obscureText,
     );
   }
 

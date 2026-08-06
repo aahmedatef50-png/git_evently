@@ -110,11 +110,77 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resetPassword => 'إعادة تعيين كلمة المرور';
 
   @override
-  String get home => 'Home';
+  String get home => 'الرئيسية';
 
   @override
-  String get favorite => 'Favorite';
+  String get favorite => 'المفضلة';
 
   @override
-  String get profile => 'Profile';
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get darkmode => 'الوضع الداكن';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get welcomeback => 'مرحبًا بعودتك ✨';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get sport => 'رياضة';
+
+  @override
+  String get book_club => 'نادي الكتب';
+
+  @override
+  String get birthday => 'عيد ميلاد';
+
+  @override
+  String get meeting => 'اجتماع';
+
+  @override
+  String get exhibition => 'معرض';
+
+  @override
+  String get search_for_event => 'ابحث عن حدث';
+
+  @override
+  String get add_event => 'إضافة حدث';
+
+  @override
+  String get title => 'العنوان';
+
+  @override
+  String get event_title => 'عنوان الحدث';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get event_description => 'وصف الحدث....';
+
+  @override
+  String get event_date => 'تاريخ الحدث';
+
+  @override
+  String get event_time => 'وقت الحدث';
+
+  @override
+  String get choose_date => 'اختر التاريخ';
+
+  @override
+  String get choose_time => 'اختر الوقت';
+
+  @override
+  String get event_details => 'تفاصيل الحدث';
+
+  @override
+  String get edit_event => 'Edit event';
+
+  @override
+  String get update_event => 'تحديث الحدث';
 }
