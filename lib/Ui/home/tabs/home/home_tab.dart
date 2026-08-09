@@ -3,6 +3,7 @@ import 'package:evently_app/Ui/home/tabs/home/tab_item_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/size_utils.dart';
@@ -25,6 +26,7 @@ class _HomeTabState extends State<HomeTab> {
     var height = context.height;
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var languageProvider = Provider.of<AppLanguageProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     List<String> eventsNameList = [
       AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sport,
@@ -54,7 +56,7 @@ class _HomeTabState extends State<HomeTab> {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        "Route Academy",
+                        userProvider.currentUser!.name,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ],

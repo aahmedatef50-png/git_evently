@@ -8,6 +8,8 @@ import 'package:evently_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../providers/user_provider.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -16,6 +18,8 @@ class ProfileScreen extends StatelessWidget {
     var width = context.width;
     var height = context.height;
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: width * 0.04,
@@ -30,11 +34,11 @@ class ProfileScreen extends StatelessWidget {
               backgroundImage: AssetImage(AppAssets.logo_route),
             ),
             Text(
-              "Route Academy",
+              userProvider.currentUser!.name,
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             Text(
-              "route@gmail.com",
+              userProvider.currentUser!.email,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             ProfileItem(

@@ -1,25 +1,38 @@
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/model/my_user.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
+import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_styles.dart';
+import 'package:evently_app/utils/dialog_utils.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:evently_app/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/size_utils.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   var nameController = TextEditingController();
+
   var emailController = TextEditingController();
+
   var rePasswordController = TextEditingController();
 
   var passwordController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
 
+  var formKey = GlobalKey<FormState>();
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +130,13 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   CustomTextField(
+
                     borderColor: Theme
                         .of(context)
                         .dividerColor,
                     filled: true,
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: isPasswordHidden,
                     validator: (text) {
                       if (text == null || text
                           .trim()
@@ -146,9 +160,15 @@ class RegisterScreen extends StatelessWidget {
                       Icons.lock_outline,
                       color: AppColors.lightgreyColor,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off_outlined,
-                      color: AppColors.lightgreyColor,
+                    suffixIcon: IconButton(
+                      color: AppColors.lightgreyColor, onPressed: () {
+                      setState(() {
+                        isPasswordHidden = !isPasswordHidden;
+                      });
+                    },
+                      icon: Icon(isPasswordHidden ?
+                      Icons.visibility_off_outlined : Icons
+                          .visibility_outlined),
                     ),
                   ),
                   CustomTextField(
@@ -157,7 +177,7 @@ class RegisterScreen extends StatelessWidget {
                         .dividerColor,
                     filled: true,
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: isPasswordHidden,
                     validator: (text) {
                       if (text == null || text
                           .trim()
@@ -182,9 +202,15 @@ class RegisterScreen extends StatelessWidget {
                       Icons.lock_outline,
                       color: AppColors.lightgreyColor,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off_outlined,
-                      color: AppColors.lightgreyColor,
+                    suffixIcon: IconButton(
+                      color: AppColors.lightgreyColor, onPressed: () {
+                      setState(() {
+                        isPasswordHidden = !isPasswordHidden;
+                      });
+                    },
+                      icon: Icon(isPasswordHidden ?
+                      Icons.visibility_off_outlined : Icons
+                          .visibility_outlined),
                     ),
                   ),
                   SizedBox(height: height * 0.02),
@@ -294,9 +320,49 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  void register() {
+  void register() async {
     if (formKey.currentState?.validate() == true) {
-
+      DialogUtils.showLoading(context: context, loadingText: "Waiting...");
+      try {
+        final credential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        MyUser myUser = MyUser(
+            id: credential.user?.uid ?? '',
+            name: nameController.text, email: emailController.text);
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.ubdateUser(myUser);
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(context: context,
+            message: "SignUp successfully",
+            title: "Success",
+            posActionName: "Ok",
+            posAction: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.homescreen);
+            });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showMessage(context: context,
+              message: "The Password Provided too weak.",
+              title: "Error", posActionName: "Ok");
+        } else if (e.code == 'email-already-in-use') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showMessage(context: context,
+              message: "The account already exists for that email.",
+              title: "Error", posActionName: "Ok");
+          print('Wrong password provided for that user.');
+        }
+      }
+      catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(context: context,
+          message: e.toString(),
+          title: "Error",
+          posActionName: "Ok",);
+      }
     }
   }
 }
