@@ -4,18 +4,27 @@ import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_styles.dart';
+import 'package:evently_app/utils/dialog_utils.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:evently_app/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/size_utils.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -248,9 +257,40 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login() {
+  void login() async {
     if (formKey.currentState?.validate() == true) {
-
+      DialogUtils.showLoading(context: context,
+          loadingText: "Loading...");
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text
+        );
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(context: context,
+            message: "Login Successfully",
+            title: "Success",
+            posActionName: "Ok",
+            posAction: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.homescreen);
+            }
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'invalid-credential') {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showMessage(context: context,
+              message: "The Supplied auth credential is incorrect , malformed or has expired."
+              ,
+              title: "Error", posActionName: "Ok");
+        }
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(context: context,
+          message: e.toString(),
+          title: "Error",
+          posActionName: "Ok",);
+      }
     }
   }
 }

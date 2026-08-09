@@ -5,22 +5,31 @@ import 'package:evently_app/Ui/home/tabs/home/add_event/add_event_screen.dart';
 import 'package:evently_app/Ui/on_boarding/introduction_screen.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_routes.dart';
 import 'package:evently_app/utils/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (BuildContext context) => AppLanguageProvider(),
+            create: (context) => UserProvider()),
+        ChangeNotifierProvider(
+          create: (context) => AppLanguageProvider(),
         ),
         ChangeNotifierProvider(
-          create: (BuildContext context) => AppThemeProvider(),
+          create: (context) => AppThemeProvider(),
         ),
       ],
       child: const MyApp(),
@@ -38,7 +47,7 @@ class MyApp extends StatelessWidget {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.homescreen,
+      initialRoute: AppRoutes.login_screen,
       routes: {AppRoutes.introductionScreen: (context) => OnboardingScreen(),
         AppRoutes.homescreen: (context) => HomeScreen(),
         AppRoutes.login_screen: (context) => LoginScreen(),
