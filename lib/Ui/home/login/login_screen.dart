@@ -1,5 +1,7 @@
+import 'package:evently_app/firebase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_routes.dart';
@@ -26,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var passwordController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .dividerColor,
                     filled: true,
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: isPasswordHidden,
                     validator: (text) {
                       if (text == null || text
                           .trim()
@@ -123,9 +126,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       Icons.lock_outline,
                       color: AppColors.lightgreyColor,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off_outlined,
-                      color: AppColors.lightgreyColor,
+                    suffixIcon: IconButton(
+                      color: AppColors.lightgreyColor, onPressed: () {
+                      setState(() {
+                        isPasswordHidden = !isPasswordHidden;
+                      });
+                    },
+                      icon: Icon(isPasswordHidden ?
+                      Icons.visibility_off_outlined : Icons
+                          .visibility_outlined),
                     ),
                   ),
                   Row(
@@ -267,6 +276,13 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passwordController.text
         );
+        var user = await FirebaseUtils.readUserFromFireStore(
+            credential.user?.uid ?? '');
+        if (user == null) {
+          return;
+        }
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.ubdateUser(user);
         DialogUtils.hideLoading(context: context);
         DialogUtils.showMessage(context: context,
             message: "Login Successfully",

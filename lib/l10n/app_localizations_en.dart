@@ -183,4 +183,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get update_event => 'Update event';
+
+  @override
+  String get no_events_found => 'No Events Found';
 }

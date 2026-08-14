@@ -55,8 +55,8 @@
     "choose_time" : "Choose time",
     "event_details" : "Event details",
     "edit_event" : "Edit event",
-    "update_event" : "Update event"
-
+    "update_event" : "Update event",
+    "no_events_found":"No Events Found"
 
 
 }

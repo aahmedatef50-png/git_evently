@@ -1,10 +1,14 @@
-import 'package:evently_app/utils/app_assets.dart';
+import 'package:evently_app/firebase_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../model/event.dart';
 import '../../../../utils/size_utils.dart';
 
 class EventItemWidget extends StatelessWidget {
-  const EventItemWidget({super.key});
+  final Event event;
+
+  const EventItemWidget({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class EventItemWidget extends StatelessWidget {
         border: Border.all(width: 2, color: Theme.of(context).dividerColor),
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage(AppAssets.birthday_light),
+          image: AssetImage(event.eventImage),
         ),
       ),
       child: Column(
@@ -42,7 +46,7 @@ class EventItemWidget extends StatelessWidget {
               ),
             ),
             child: Text(
-              '21 Jan',
+              DateFormat('dd MMM').format(event.eventDate).toString(),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
@@ -59,14 +63,20 @@ class EventItemWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'This is a Birthday Party ',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                Expanded(
+                  child: Text(
+                    event.eventTitle,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    FirebaseUtils.updateIsFavorite(event);
+                  },
                   icon: Icon(
-                    Icons.favorite_border_outlined,
+                    event.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
                     color: Theme.of(context).cardColor,
                   ),
                 ),

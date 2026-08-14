@@ -55,6 +55,7 @@
       "choose_time": "اختر الوقت",
       "event_details": "تفاصيل الحدث",
       "Edit event": "تعديل الحدث",
-      "update_event": "تحديث الحدث"
+      "update_event": "تحديث الحدث",
+      "no_events_found": "لم يتم العثور على أحداث"
 
 }
