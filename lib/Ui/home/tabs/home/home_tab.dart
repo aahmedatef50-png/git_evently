@@ -1,5 +1,6 @@
 import 'package:evently_app/Ui/home/tabs/home/event_item_widget.dart';
 import 'package:evently_app/Ui/home/tabs/home/tab_item_widget.dart';
+import 'package:evently_app/firebase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
@@ -10,15 +11,42 @@ import 'package:evently_app/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../model/event.dart';
+
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
+
 
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> {
+  @override
   int selectedIndex = 0;
+  List<Event> eventsList = [];
+  List<Event> filterEventsList = [];
+
+  Stream<List<Event>>? eventStream;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    eventStream = FirebaseUtils.getAllEvents();
+  }
+
+  void ubdateStream(int index) {
+    selectedIndex = index;
+    if (selectedIndex == 0) {
+      eventStream = FirebaseUtils.getAllEvents();
+    } else {
+      eventStream = FirebaseUtils.getFilterAllEvents(selectedIndex);
+    }
+    setState(() {
+
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +114,7 @@ class _HomeTabState extends State<HomeTab> {
               ),
               TabBar(
                 onTap: (index) {
-                  selectedIndex = index;
-                  setState(() {});
+                  ubdateStream(index);
                 },
                 isScrollable: true,
                 indicatorColor: AppColors.transparentColor,
@@ -103,20 +130,66 @@ class _HomeTabState extends State<HomeTab> {
                 }).toList(),
               ),
               Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return EventItemWidget();
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(height: height * 0.02);
-                  },
-                  itemCount: 20,
+                  child: StreamBuilder(stream: eventStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.mainLightColor,
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text(snapshot.error.toString(),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineMedium,),);
+                      } else if (!snapshot.hasData && snapshot.data!.isEmpty) {
+                        return Center(child: Text(AppLocalizations.of(context)!
+                            .no_events_found,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineMedium,),);
+                      } else {
+                        eventsList = snapshot.data!;
+                        if (selectedIndex == 0) {
+                          filterEventsList = eventsList;
+                        } else {
+                          filterEventsList = eventsList.where((event) {
+                            return event.eventName ==
+                                eventsNameList[selectedIndex];
+                          }).toList();
+                        }
+
+                        return filterEventsList.isEmpty ?
+                        Center(child: Text(AppLocalizations.of(context)!
+                            .no_events_found,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineMedium,),)
+                            :
+                        ListView.separated(
+                          itemBuilder: (context, index) {
+                            return EventItemWidget(
+                              event: filterEventsList[index],);
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: height * 0.02);
+                          },
+                          itemCount: filterEventsList.length,);
+                      }
+                    }
+                    ,)
                 ),
-              ),
+
             ],
           ),
         ),
       ),
     );
   }
+
+
 }

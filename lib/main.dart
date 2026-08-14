@@ -24,13 +24,13 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => UserProvider()),
-        ChangeNotifierProvider(
           create: (context) => AppLanguageProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AppThemeProvider(),
         ),
+        ChangeNotifierProvider(
+            create: (context) => UserProvider()),
       ],
       child: const MyApp(),
     ),

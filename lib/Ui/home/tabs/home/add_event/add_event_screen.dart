@@ -1,11 +1,14 @@
 import 'package:evently_app/Ui/home/tabs/home/add_event/date_or_time_widget.dart';
 import 'package:evently_app/Ui/home/tabs/home/tab_item_widget.dart';
+import 'package:evently_app/firebase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/model/event.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/size_utils.dart';
+import 'package:evently_app/utils/toast_utils.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:evently_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +45,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final formKey = GlobalKey<FormState>();
   var title = '';
   var description = '';
+  String selectedEventName = '';
+  String selectedEventImage = '';
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +62,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
       AppLocalizations.of(context)!.book_club,
       AppLocalizations.of(context)!.exhibition,
     ];
+    selectedEventName = eventsNameList[selectedIndex];
+    selectedEventImage = themeProvider.isDark() ?
+    eventDarkImagesList[selectedIndex] : eventLightImagesList[selectedIndex];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.transparentColor,
@@ -104,9 +114,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     image: DecorationImage(
                       fit: BoxFit.fill,
                       image: AssetImage(
-                        themeProvider.isDark()
-                            ? eventDarkImagesList[selectedIndex]
-                            : eventLightImagesList[selectedIndex],
+                          selectedEventImage
                       ),
                     ),
                   ),
@@ -214,6 +222,26 @@ class _AddEventScreenState extends State<AddEventScreen> {
   void addEvent() {
     if (formKey.currentState?.validate() == true) {
       // todo add event
+      Event event = Event(
+          eventImage: selectedEventImage,
+          eventName: selectedEventName,
+          eventTitle: title,
+          eventCategoryIndex: selectedIndex + 1,
+          eventDescription: description,
+          eventDate: DateTime(
+              selectedDate!.year, selectedDate!.month, selectedDate!.day,
+              selectedTime!.hour, selectedTime!.minute));
+      FirebaseUtils.addEventFromFireStore(event)
+          .then((value) {
+        ToastUtils.showToastMessage(message: "Event Added Successfully.",
+            backgroundColor: AppColors.mainLightColor,
+            textColor: AppColors.whiteColor);
+        Navigator.pop(context);
+      }).catchError((error) {
+        ToastUtils.showToastMessage(message: error.toString(),
+            backgroundColor: AppColors.mainLightColor,
+            textColor: AppColors.whiteColor);
+      });
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:evently_app/firebase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/model/my_user.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
@@ -332,8 +333,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         MyUser myUser = MyUser(
             id: credential.user?.uid ?? '',
             name: nameController.text, email: emailController.text);
+        await FirebaseUtils.addUserInFireStore(myUser);
+        var user = await FirebaseUtils.readUserFromFireStore(
+            credential.user?.uid ?? '');
+        if (user == null) {
+          return;
+        }
         var userProvider = Provider.of<UserProvider>(context, listen: false);
-        userProvider.ubdateUser(myUser);
+        userProvider.ubdateUser(user);
         DialogUtils.hideLoading(context: context);
         DialogUtils.showMessage(context: context,
             message: "SignUp successfully",

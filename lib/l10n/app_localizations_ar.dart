@@ -183,4 +183,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get update_event => 'تحديث الحدث';
+
+  @override
+  String get no_events_found => 'لم يتم العثور على أحداث';
 }
