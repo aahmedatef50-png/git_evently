@@ -1,3 +1,4 @@
+import 'package:evently_app/Ui/home/login/forget_password.dart';
 import 'package:evently_app/firebase_utils.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
@@ -141,7 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForgetPassword()));
+                        },
                         child: Text(
                           '${AppLocalizations.of(context)!.forgotPassword} ?',
                           style: Theme
