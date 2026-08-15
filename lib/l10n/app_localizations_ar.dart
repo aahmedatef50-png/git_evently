@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -179,7 +178,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get event_details => 'تفاصيل الحدث';
 
   @override
-  String get edit_event => 'Edit event';
+  String get edit_event => 'تعديل الحدث';
 
   @override
   String get update_event => 'تحديث الحدث';

@@ -56,6 +56,8 @@
       "event_details": "تفاصيل الحدث",
       "Edit event": "تعديل الحدث",
       "update_event": "تحديث الحدث",
-      "no_events_found": "لم يتم العثور على أحداث"
+      "no_events_found": "لم يتم العثور على أحداث",
+      "event_details": "تفاصيل الحدث",
+      "edit_event": "تعديل الحدث"
 
 }
