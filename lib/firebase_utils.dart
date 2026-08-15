@@ -83,11 +83,11 @@ class FirebaseUtils {
         });
   }
 
-  Future<void> updateUser(Event event) {
-    return getEventCollections()
-        .doc('events')
-        .update({'events': event.eventId})
-        .then((value) => print("User Updated"))
-        .catchError((error) => print("Failed to update user: $error"));
+  static Future<void> updateEvent(Event event) async {
+    return await getEventCollections()
+        .doc(event.eventId)
+        .update({'events': event.eventId});
   }
+
+
 }

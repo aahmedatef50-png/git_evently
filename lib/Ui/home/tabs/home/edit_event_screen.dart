@@ -8,7 +8,6 @@ import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_colors.dart';
 import 'package:evently_app/utils/app_styles.dart';
 import 'package:evently_app/utils/size_utils.dart';
-import 'package:evently_app/utils/toast_utils.dart';
 import 'package:evently_app/widgets/custom_elevated_button.dart';
 import 'package:evently_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -242,7 +241,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                   backgroundColor: Theme.of(context).cardColor,
                   onPressed: editEvent,
                   child: Text(
-                    AppLocalizations.of(context)!.edit_event,
+                    AppLocalizations.of(context)!.update_event,
                     style: AppStyles.medium20white,
                   ),
                 ),
@@ -273,39 +272,8 @@ class _EditEventScreenState extends State<EditEventScreen> {
           selectedTime!.minute,
         ),
       );
-      FirebaseUtils()
-          .updateUser(updatedEvent)
-          .then((value) {
-            ToastUtils.showToastMessage(
-              message: "Event Edit Successfully.",
-              backgroundColor: AppColors.mainLightColor,
-              textColor: AppColors.whiteColor,
-            );
-            Navigator.pop(context);
-          })
-          .catchError((error) {
-            ToastUtils.showToastMessage(
-              message: error.toString(),
-              backgroundColor: AppColors.mainLightColor,
-              textColor: AppColors.whiteColor,
-            );
-          });
+      FirebaseUtils.updateEvent(updatedEvent);
     }
-
-    final updatedEvent = Event(
-      eventImage: selectedEventImage,
-      eventName: selectedEventName,
-      eventTitle: titleController.text.trim(),
-      eventCategoryIndex: selectedIndex + 1,
-      eventDescription: descriptionController.text.trim(),
-      eventDate: DateTime(
-        selectedDate!.year,
-        selectedDate!.month,
-        selectedDate!.day,
-        selectedTime!.hour,
-        selectedTime!.minute,
-      ),
-    );
   }
 
   void onChooseDate() async {
