@@ -273,6 +273,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
         ),
       );
       FirebaseUtils.updateEvent(updatedEvent);
+      Navigator.pop(context);
     }
   }
 
