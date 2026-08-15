@@ -82,4 +82,12 @@ class FirebaseUtils {
           }).toList();
         });
   }
+
+  static Future<void> deleteEvent(String eventId) async {
+    try {
+      await getEventCollections().doc(eventId).delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
