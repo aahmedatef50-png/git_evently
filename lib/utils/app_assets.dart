@@ -32,4 +32,5 @@ class AppAssets {
   static const String book_club_dark = 'assets/images/book_club_dark_mode.png';
   static const String meeting_dark = 'assets/images/meeting_dark_mode.png';
   static const String exhbition_dark = 'assets/images/Exhibition_dark_mode.png';
+  static const String reset_password = 'assets/images/forget_password.png';
 }
