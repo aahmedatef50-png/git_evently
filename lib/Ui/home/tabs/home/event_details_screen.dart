@@ -1,3 +1,4 @@
+import 'package:evently_app/Ui/home/tabs/home/edit_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +53,10 @@ class EventDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => EditEventScreen(event: event)));
+              },
               icon: Icon(Icons.edit, color: Theme.of(context).cardColor),
             ),
           ),
