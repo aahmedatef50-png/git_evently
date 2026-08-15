@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/event.dart';
+import 'event_details_screen.dart';
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
@@ -55,6 +56,7 @@ class _HomeTabState extends State<HomeTab> {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var userProvider = Provider.of<UserProvider>(context);
+
     List<String> eventsNameList = [
       AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sport,
@@ -172,8 +174,16 @@ class _HomeTabState extends State<HomeTab> {
                             :
                         ListView.separated(
                           itemBuilder: (context, index) {
-                            return EventItemWidget(
-                              event: filterEventsList[index],);
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        EventDetailsScreen(
+                                            event: filterEventsList[index])));
+                              },
+                              child: EventItemWidget(
+                                event: filterEventsList[index],),
+                            );
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(height: height * 0.02);

@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.login_screen: (context) => LoginScreen(),
         AppRoutes.register_screen: (context) => RegisterScreen(),
         AppRoutes.add_event_screen: (context) => AddEventScreen(),
+
       },
       locale: Locale(languageProvider.appLanguage),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

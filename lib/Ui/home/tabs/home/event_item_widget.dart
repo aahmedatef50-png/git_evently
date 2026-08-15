@@ -66,7 +66,7 @@ class EventItemWidget extends StatelessWidget {
                 Expanded(
                   child: Text(
                     event.eventTitle,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 IconButton(
