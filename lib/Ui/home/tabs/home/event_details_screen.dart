@@ -1,3 +1,5 @@
+import 'package:evently_app/firebase_utils.dart';
+import 'package:evently_app/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -64,7 +66,13 @@ class EventDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                FirebaseUtils.deleteEvent(event.eventId);
+                Navigator.pop(context);
+                ToastUtils.showToastMessage(message: "Deleted Successfully",
+                    backgroundColor: AppColors.greenColor,
+                    textColor: AppColors.whiteColor);
+              },
               icon: Icon(Icons.delete_outline, color: AppColors.redColor),
             ),
           ),
