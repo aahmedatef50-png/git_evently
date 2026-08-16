@@ -45,6 +45,7 @@ dependencies:
   firebase_auth: ^6.5.7
   cloud_firestore: ^6.8.0
   fluttertoast: ^10.0.0
+  smooth_page_indicator: ^2.0.1
 
 
 dev_dependencies:

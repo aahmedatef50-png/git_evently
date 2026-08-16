@@ -86,7 +86,7 @@ class _HomeTabState extends State<HomeTab> {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        userProvider.currentUser!.name,
+                        userProvider.currentUser?.name ?? '',
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ],
