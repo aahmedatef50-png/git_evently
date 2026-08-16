@@ -47,8 +47,9 @@ class MyApp extends StatelessWidget {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.login_screen,
-      routes: {AppRoutes.introductionScreen: (context) => OnboardingScreen(),
+      initialRoute: AppRoutes.onboarding_screen,
+      routes: {
+        AppRoutes.onboarding_screen: (context) => OnboardingScreen(),
         AppRoutes.homescreen: (context) => HomeScreen(),
         AppRoutes.login_screen: (context) => LoginScreen(),
         AppRoutes.register_screen: (context) => RegisterScreen(),

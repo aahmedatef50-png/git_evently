@@ -35,7 +35,8 @@ class OnboardingScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 onDone: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.homescreen);
+                  Navigator.pushReplacementNamed(
+                      context, AppRoutes.login_screen);
                 },
                 showBackButton: true,
                 back: Text(
